@@ -1,0 +1,234 @@
+@import url('zeroing.css');
+
+$bg-color:#0A0A0A, #111;
+$font-color:#ddd;
+$shadow-color: rgb(16,108,184) , rgb(16,108,184), rgb(2,108,0);
+
+html, body {
+	color: $font-color;
+}
+
+$maxWidth: 1280;
+@mixin adaptiv-font($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$addMobSize: $addSize + $addSize * 0.7;
+	@media (max-width: 767px) {
+		font-size: calc(#{$mobSize + px} + #{$addMobSize} * ((100vw - 320px) / #{$maxWidth}));
+	}
+	@media (min-width: 767px) {
+		font-size: calc(#{$mobSize + px} + #{$addSize} * (100vw / #{$maxWidth}));
+	}
+}
+
+$maxWidth: 1280;
+@mixin adaptiv-font($pcSize, $mobSize) {
+	$addSize: $pcSize - $mobSize;
+	$maxWidth: $maxWidth - 320;
+	font-size: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth}));
+}
+
+.__container {
+	max-width: 1280px;
+	width: 100%;
+	margin: 0 auto;
+	width: 100%;
+	height: 100%;
+}
+.header {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	z-index: 5;
+	&::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: nth($bg-color, 2);
+	}
+}
+
+.header__body {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin: 0 20px;
+	.burger {
+		position: relative;
+		width: 30px;
+		height: 18px;
+		display: none;
+		cursor: pointer;
+		&::before,&::after {
+			content: '';
+			left: 0;
+			position: absolute;
+			width: 100%;
+			height: 2px;
+			background: $font-color;
+			transition: all .1s linear;
+		}
+		span {
+			position: absolute;
+			background: $font-color;
+			;position: absolute;
+			width: 100%;
+			height: 2px;
+			left: 0;
+			transition: transform .2s ease-out;
+			top: 8px;
+			transform: scale(.9);
+		}
+		&::before {top: 0px;}&::after {bottom: 0px;}
+		&.active span {transform: scale(0);}
+		&.active::before {
+			top: 50%;
+			transform: translate(-50%);
+			transform: rotate(45deg);
+		}&.active::after {
+			top: 50%;
+			transform: translate(-50%);
+			transform: rotate(-45deg);
+		}
+	}
+}
+.header__logo {
+	font-size: 46px;
+	font-family: 'Segoe Script', serif;
+}
+.nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 60%;
+	.nav__item {
+		width: 10%;
+		a {
+			@include adaptiv-font(22, 14);
+			color: $font-color;
+		}
+	}
+}
+
+.hero {
+	height: 100vh;
+	background: nth($bg-color, 1);
+	&.__container {
+		height: 100%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+.hero__body, .image__body, .footer__body {
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.hero__content {
+	text-align: center;
+	max-width: 460px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+.hero__title {
+	font-weight: bold;
+	@include adaptiv-font(72, 24);
+}
+.hero__text {
+	@include adaptiv-font(24, 14);
+	margin: 20px 0px;
+}
+
+.title {
+	@include adaptiv-font(92, 24);
+}
+.text {
+	@include adaptiv-font(32, 14);
+}
+
+.title,
+.text {
+	background: url('../img/bg-clip.jpg') 50% 50%/contain;
+	background-attachment: fixed;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.hero__btn {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 145px;
+	height: 32px;
+	color: $font-color;
+	border: 2px solid $font-color;
+	align-self: center;
+	overflow: hidden;
+	transition: all .2s ease;
+	@include adaptiv-font(22, 14);
+	span {
+		position: absolute;
+		display: block;
+		left: -100%;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		background: #eeeeeeff;
+		transition: all .2s ease;
+	}
+	.inner__text {
+		font-style: normal;
+		position: relative;
+	}
+}
+
+.hero__btn:hover {
+	color: nth($bg-color, 1);
+	span {
+		transform: translate(100%);
+	}
+}
+
+.image {
+	height: 100vh;
+	background: nth($bg-color, 1);
+}
+.footer {
+	height: 100vh;
+	background: url('../img/bg.jpg') 50% 50%/cover no-repeat;
+	background-attachment: fixed;
+}
+.icon {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.icon__item {
+	display: block;
+	width: 32px;
+	height: 32px;
+	border-radius: 10px;
+	margin: 0 5px;
+	transition: all .1s linear;
+}
+@for $i from 1 through 3 {
+	.icon__item-#{$i} {
+		background: url("../img/#{$i}.png") 0 0/contain no-repeat;
+		box-shadow: 0px 3px 1px nth($shadow-color, $i);
+		border: 1px solid nth($shadow-color, $i);
+	}
+	.icon__item-#{$i}:hover {
+		transform: translateY(2px);
+		box-shadow: 0px 1px 1px nth($shadow-color, $i);
+	}
+}
